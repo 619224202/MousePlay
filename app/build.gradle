@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.swkj.mouseplay"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
+    }
+
+    sourceSets.main {
+        if(rootProject.ext.region == rootProject.ext.regions["SBY"]){
+            manifest.srcFile "src/main/AndroidManifests/sby/AndroidManifest.xml"
+            java.srcDirs=["src/main/java","src/payjava/sby"]
+        }else if(rootProject.ext.region == rootProject.ext.regions["SC"]){
+            manifest.srcFile "src/main/AndroidManifests/sc/AndroidManifest.xml"
+            java.srcDirs=["src/main/java","src/payjava/sc"]
+        }else if(rootProject.ext.region == rootProject.ext.regions["HB"]){
+            manifest.srcFile "src/main/AndroidManifests/hb/AndroidManifest.xml"
+            java.srcDirs=["src/main/java","src/payjava/hb"]
+        }else if(rootProject.ext.region == rootProject.ext.regions["HN"]){
+            manifest.srcFile "src/main/AndroidManifests/hn/AndroidManifest.xml"
+            java.srcDirs=["src/main/java","src/payjava/hn"]
+        }else if(rootProject.ext.region == rootProject.ext.regions["BY"]){
+            manifest.srcFile "src/main/AndroidManifests/by/AndroidManifest.xml"
+            java.srcDirs=["src/main/java","src/payjava/by"]
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+}
+
+dependencies {
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation files('libs/android_midp.jar')
+
+    if(rootProject.ext.region == rootProject.ext.regions["SBY"]) {
+        //视博云
+        implementation files('libs/CyberCloud.Application.Android.jar')
+    }else if(rootProject.ext.region == rootProject.ext.regions["HB"]
+        || rootProject.ext.region == rootProject.ext.regions["HN"]) {
+
+        //湖南梦讯、湖北
+        implementation files('libs/HolybladeSDK.jar')
+        implementation files('libs/TVSDK_sj_assets.jar')
+        implementation files('libs/TVSDK_sj.jar')
+        implementation files('libs/TVSDK.jar')
+    }else if(rootProject.ext.region == rootProject.ext.regions["SC"]) {
+        //四川
+//        implementation files('libs/classes.jar')
+    }
+    implementation project(":sichuan_module")
+}

@@ -1,0 +1,9 @@
+ext {
+    regions = [
+            "SBY" : 0,
+            "HB" : 1,
+            "HN" : 2,
+            "SC" : 3,
+    ]
+    region = regions["SC"]
+}
